@@ -25,7 +25,8 @@ class KafkaConfig {
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to  bootstrapServers,
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to ByteArraySerializer::class.java,
-            ProducerConfig.MAX_BLOCK_MS_CONFIG to 5000
+            ProducerConfig.MAX_BLOCK_MS_CONFIG to 5000,
+            ProducerConfig.MAX_REQUEST_SIZE_CONFIG to 5000000
     )
     @Bean
     fun producerFactory() = DefaultKafkaProducerFactory<String, ByteArray>(producerConfigs())

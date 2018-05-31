@@ -15,10 +15,11 @@ class UploadService(private val kafka: KafkaTemplate<String, ByteArray>) {
         if (!UploadConfig.allowedFileTypes.contains(file.contentType)) {
             throw UnsupportedMediaTypeStatusException("File type '${file.contentType}' is not supported")
         }
+
         val future = kafka.send(KafkaConfig.TOPIC_NEW_IMAGE, imageId, file.bytes)
         future.addCallback(object : ListenableFutureCallback<SendResult<String, ByteArray>> {
-            override fun onSuccess(result: SendResult<String, ByteArray>?) = println("yay, het lukte")
-            override fun onFailure(ex: Throwable) = println("Sending file to kafka threw an exception: ${ex.message}")
+            override fun onSuccess(result: SendResult<String, ByteArray>?) = println("Image with id $imageId successfully sent to topic")
+            override fun onFailure(ex: Throwable) = println("Sending image to kafka threw an exception: ${ex.message}")
         })
     }
 }
